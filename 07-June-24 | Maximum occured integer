@@ -1,0 +1,49 @@
+class Solution {
+  public:
+    // l and r are input array
+    // maxx : maximum in r[]
+    // n: size of array
+    // arr[] : declared globally with size equal to maximum in l[] and r[]
+    // Function to find the maximum occurred integer in all ranges.
+    int maxOccured(int n, int l[], int r[], int maxx) {
+        int arr[maxx]={0};
+        for(int i=0;i<n;i++){
+            for(int j=l[i];j<=r[i];j++){
+                arr[j]++;
+            }
+        }
+        int k=0;
+        for(int i=0;i<maxx;i++){
+            if(arr[i]>arr[k]){
+                k=i;
+            }
+        }
+        
+        return k;
+    }
+    
+};
+
+
+
+//OPTIMISED APPROCH using Prefix Sum
+int maxOccured(int n, int l[], int r[], int maxx) {
+        vector<int>a(maxx+2,0);
+        for(int i=0;i<n;i++){
+            a[l[i]]++;
+            a[r[i]+1]--;
+        }
+        int sum=0;
+        for(int i=0;i<=maxx;i++){
+            a[i]+=sum;
+            sum=a[i];
+        }
+        int ans=0;
+        for(int i=1;i<=maxx;i++){
+            if(a[i]>a[ans]){
+                ans=i;
+            }
+        }
+    
+        return ans;
+    }
